@@ -1,10 +1,15 @@
 #include<iostream>
+#include "FilesFunctions.h"
 #include"menu.h"
+#include "ioput.h"
 #include<Windows.h>
 #include<string>
 #include<fstream>
 
 using namespace std;
+
+int isopen = 0, StructAmount = 0,i = 0;
+//Data data[100];
 
 //void menu()
 //{
@@ -15,32 +20,35 @@ using namespace std;
 //		 << "Press (5) to display data.\n";
 //}
 
-struct Data
-{
-	char executor[15];
-	char SongName[20];
-	int compression;
-	float price;
-	char date[10];
-};
+//struct Data
+//{
+//	char executor[15];
+//	char SongName[20];
+//	int compression;
+//	float price;
+//	char date[10];
+//}data[10];
 
-void input(Data parameter)
-{
-	cout << "Enter singer's name : ";
-	cin.getline(parameter.executor,15);
 
-	cout << "Enter song name : ";
-	cin.getline(parameter.SongName,10);
 
-	cout << "Enter file compression ratio : ";
-	cin >> parameter.compression;
 
-	cout << "Enter price : ";
-	cin >> parameter.price;
-
-	cout << "Enter purchase date ";
-	cin >> parameter.date[10];
-}
+//void input(Data parameter)
+//{
+//	cout << "Enter singer's name : ";
+//	cin.getline(parameter.executor,15);
+//
+//	cout << "Enter song name : ";
+//	cin.getline(parameter.SongName,10);
+//
+//	cout << "Enter file compression ratio : ";
+//	cin >> parameter.compression;
+//
+//	cout << "Enter price : ";
+//	cin >> parameter.price;
+//
+//	cout << "Enter purchase date ";
+//	cin >> parameter.date[10];
+//}
 
 void content()
 {
@@ -51,33 +59,32 @@ void content()
 		 << "Дата : дата покупки(дд.мм.гггг)\n";
 }
 
-void printData(Data parameter)
-{
-	cout.width(5);
-	cout << parameter.executor;
-	cout << parameter.SongName;
-	cout << parameter.compression;
-	cout << parameter.price;
-	cout << parameter.date;
-}
+//void printData(Data parameter)
+//{
+//	cout.width(5);
+//	cout << parameter.executor;
+//	cout << parameter.SongName;
+//	cout << parameter.compression;
+//	cout << parameter.price;
+//	cout << parameter.date;
+//}
 
-ofstream new_DB()
-{
-	string nof;
-	cout << "Enter name of file : ";
-	cin >> nof;
-	ofstream fout;
-	fout.open(nof);
-	if (!fout.is_open())
-	{
-		cout << "Ошибка открытия файла!!!";
-	}
-	else
-	{
-		cout << "Файл открыт.\n";
-	}
-	return fout;
-}
+//void new_DB()
+//{
+//	string nof;
+//	cout << "Enter name of file : ";
+//	cin >> nof;
+//	ofstream fout;
+//	fout.open(nof);
+//	if (!fout.is_open())
+//	{
+//		cout << "Ошибка открытия файла!!!";
+//	}
+//	else
+//	{
+//		cout << "Файл открыт.\n";
+//	}
+//}
 
 void remove_DB()
 {
@@ -118,11 +125,13 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	Data *list = new Data;
+	//Data *list = new Data;
 	menu();
-	new_DB();
-	remove_DB();
-	delete[] list;
+	//printData(fn);
+//	new_DB();
+	//remove_DB();
+//	get_data();
+	//delete[] list;
 	system("pause");
 	return 0;
 }
