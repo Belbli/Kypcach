@@ -3,6 +3,8 @@
 #include <iostream>
 using namespace std;
 
+char fn[10];
+
 void menu()
 {
 	char choice[3];
@@ -32,23 +34,30 @@ void menu()
 		switch (fchoice)
 		{
 			case 1:system("cls");
+				DB_parameters();
 					break;
 			case 2:system("cls");
 				get_data();
 				break;
 			case 3:system("cls");
+				remove_DB();
 				break;
 			case 4:system("cls");
 				break;
 			case 5:system("cls");
 				cout << "¬ведите им€ файла, чтобы отоброзить его содержимое : ";
-				char fn[10];
 				cin >> fn;
 				printData(fn);
 				break;
 			case 6:system("cls");
 				break;
 			case 7:system("cls");
+				break;
+			case 8:system("cls");
+				cout << "¬ведите им€ файла, чтобы редактировать его содержимое : ";
+				cin >> fn;
+				break;
+			case 9:system("cls");
 				break;
 		}
 

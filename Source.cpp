@@ -8,66 +8,25 @@
 
 using namespace std;
 
-int isopen = 0, StructAmount = 0,i = 0;
+int isopen = 0, n = 0,i = 0; // n - счётчик структур
 //Data data[100];
 
-//void menu()
+
+
+
+
+
+
+
+//void content()
 //{
-//	cout << "Press (1) to display input format.\n"
-//		 << "Press (2) to enter data.\n"
-//		 << "Press (3) to delete data\n"
-//		 << "Press (4) to load data from file\n"
-//		 << "Press (5) to display data.\n";
+//	cout << "Имполнитель : имя исполнителя (<=15 символов)\n"
+//		 << "Имя песни (<=10 символов)\n"
+//		 << "степень сжатия : степень сжатия(int)\n"
+//		 << "цена : цена композиции(float)\n"
+//		 << "Дата : дата покупки(дд.мм.гггг)\n";
 //}
 
-//struct Data
-//{
-//	char executor[15];
-//	char SongName[20];
-//	int compression;
-//	float price;
-//	char date[10];
-//}data[10];
-
-
-
-
-//void input(Data parameter)
-//{
-//	cout << "Enter singer's name : ";
-//	cin.getline(parameter.executor,15);
-//
-//	cout << "Enter song name : ";
-//	cin.getline(parameter.SongName,10);
-//
-//	cout << "Enter file compression ratio : ";
-//	cin >> parameter.compression;
-//
-//	cout << "Enter price : ";
-//	cin >> parameter.price;
-//
-//	cout << "Enter purchase date ";
-//	cin >> parameter.date[10];
-//}
-
-void content()
-{
-	cout << "Имполнитель : имя исполнителя (<=15 символов)\n"
-		 << "Имя песни (<=10 символов)\n"
-		 << "степень сжатия : степень сжатия(int)\n"
-		 << "цена : цена композиции(float)\n"
-		 << "Дата : дата покупки(дд.мм.гггг)\n";
-}
-
-//void printData(Data parameter)
-//{
-//	cout.width(5);
-//	cout << parameter.executor;
-//	cout << parameter.SongName;
-//	cout << parameter.compression;
-//	cout << parameter.price;
-//	cout << parameter.date;
-//}
 
 //void new_DB()
 //{
@@ -86,17 +45,17 @@ void content()
 //	}
 //}
 
-void remove_DB()
-{
-	char fname[10];
-	cout << "Введите имя файла для удаления : ";
-	cin >> fname;
-	remove(fname);
-	if (!remove(fname))
-		cout << "Ошибка удаления файла";
-	else
-		cout << "Файл успешно удалён.";
-}
+//void remove_DB()
+//{
+//	char fname[10];
+//	cout << "Введите имя файла для удаления : ";
+//	cin >> fname;
+//	remove(fname);
+//	if (!remove(fname))
+//		cout << "Ошибка удаления файла";
+//	else
+//		cout << "Файл успешно удалён.";
+//}
 
 void clear()
 {
