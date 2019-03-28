@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "FilesFunctions.h"
 #include <iostream>
+#include <conio.h>
 using namespace std;
 
 char fn[10];
@@ -34,6 +35,7 @@ void menu()
 		switch (fchoice)
 		{
 			case 1:system("cls");
+				//system("color C");
 				DB_parameters();
 					break;
 			case 2:system("cls");
@@ -60,8 +62,6 @@ void menu()
 			case 9:system("cls");
 				break;
 		}
-
-
 
 }
 

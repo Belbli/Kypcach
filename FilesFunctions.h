@@ -8,7 +8,9 @@ struct Data
 	char SongName[20];
 	int compression;
 	float price;
-	char date[10];
+	int day;
+	int month;
+	int year;
 };
 #endif // !Struct
 
@@ -16,13 +18,12 @@ struct Data
 #ifndef FilesFunctions_h
 #define FilesFunctions_h
 
-void GoToMenu();
 Data get_data();
 void printData(char *fname);
 void EditFile(char *fname);
 void remove_DB();
 void DB_parameters();
-
+void GoToMenu();
 
 #endif
 

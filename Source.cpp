@@ -5,6 +5,7 @@
 #include<Windows.h>
 #include<string>
 #include<fstream>
+#include<cstdlib>
 
 using namespace std;
 
@@ -83,8 +84,8 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-
-	//Data *list = new Data;
+	//system("color B");
+	Data *list = new Data;
 	menu();
 	//printData(fn);
 //	new_DB();

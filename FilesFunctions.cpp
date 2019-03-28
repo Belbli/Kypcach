@@ -7,7 +7,8 @@ using namespace std;
 
 char nof[10];
 
-void GoTOMenu()
+
+void GoToMenu()
 {
 	cout << "\n\nДля выхода в главное меню нажмите Esc : ";
 tryagain:
@@ -21,6 +22,7 @@ tryagain:
 		break;
 	}
 }
+
 
 Data get_data()
 {
@@ -45,9 +47,8 @@ Data get_data()
 		int ch = 0;
 
 		Data data[10];
-		do {
-			if (ch == 1)
-				n++;
+		//do {
+			n++;
 			cout << "Enter singer's name : ";
 			cin >> data[n].executor;
 			fout << data[n].executor << endl;
@@ -64,25 +65,31 @@ Data get_data()
 			cin >> data[n].price;
 			fout << data[n].price << endl;
 
-			cout << "Enter purchase date : ";
-			cin >> data[n].date;
-			fout << data[n].date << endl;
+			cout << "Введите день покупки : ";
+			cin >> data[n].day;
+			fout << data[n].day << endl;
+
+			cout << "Введите месяц покупки : ";
+			cin >> data[n].month;
+			fout << data[n].month << endl;
+
+			cout << "Введите год покупки : ";
+			cin >> data[n].year;
+			fout << data[n].year << endl;
+
 			fout.close();
 			cout << "\nДанные успешно записаны в файл.\n";
-			cin >> ch;
-			
+			//cin >> ch;
+		//} while (ch == 1);
+			GoToMenu();
 			return data[n];
-		} while (ch == 1);
 		
-				//GoTOMenu();
+				
 	}
 	
 	
 }
-			//}
-			/*cout << "Хотите ли вы добавить еще структуру(1 - да, 2 - нет) : ";
-			cin >> q;*/
-			//i++;
+			
 void printData(char *fname)
 {
 	ifstream fin(fname);
@@ -94,16 +101,38 @@ void printData(char *fname)
 	{
 		cout << "Файл открыт.\n";
 		char buff[50];
-
-		for (int i = 0; i < 5; i++)
+		char c[2];
+		int ch;
+		do {
+			cout << "Для вывода в форме таблицы введите 1, для обычного вывода введите 2.";
+			cin >> c;
+			ch = atoi(c);
+			system("cls");
+		} while (ch == 0 || ch > 2);
+		if (ch == 1)
 		{
-			fin >> buff;
-			cout << buff << endl;
+			cout << "Исполнитель\t\tКомпозиция\tСтепень сжатия(MB)\tЦена($)\t\tДата\n\n";
+			for (int i = 0; i < 5; i++)
+			{
+				fin >> buff;
+				cout << buff << "\t\t";
+				if (i > 1 && i < 3)
+					cout << "\t";
+			}
+		}
+		if (ch == 2)
+		{
+			for (int i = 0; i < 7; i++)
+			{
+				fin >> buff;
+				cout << buff << endl;
+			}
 		}
 		fin.close();
-		//GoToMenu();
+		cout << endl;
+		GoToMenu();
 	}
-
+	
 }
 
 void remove_DB()
@@ -116,7 +145,7 @@ void remove_DB()
 		cout << "Ошибка удаления файла\n";
 	else 
 		cout << "Файл успешно удалён.\n";
-	//GoToMenu();
+	GoToMenu();
 }
 
 void EditData(char *fname)
@@ -130,12 +159,14 @@ void EditData(char *fname)
 void DB_parameters()
 {
 	cout << "Имполнитель : имя исполнителя (<=15 символов)\n"
-		<< "Имя песни (<=10 символов)\n"
-		<< "Степень сжатия(int)\n"
-		<< "Цена : цена композиции(float)\n"
-		<< "Дата : дата покупки(дд.мм.гггг)\n\n\n";
+		 << "Имя песни (<=10 символов)\n"
+		 << "Степень сжатия(int)\n"
+		 << "Цена : цена композиции(float)\n"
+		 << "Дата : дата покупки(дд.мм.гггг)\n\n\n";
 	
-	GoTOMenu();
+	GoToMenu();
 }
+
+
 		
 	
