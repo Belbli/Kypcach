@@ -1,7 +1,7 @@
 
 
-#ifndef Struct
-#define Struct
+#ifndef STRUCT
+#define STRUCT
 struct Data
 {
 	char executor[15];
@@ -18,12 +18,15 @@ struct Data
 #ifndef FilesFunctions_h
 #define FilesFunctions_h
 
-Data get_data();
+
+void get_data();
+void save_DB(int count);
+void PrintFromStruct();
 void printData(char *fname);
 void EditFile(char *fname);
 void remove_DB();
-void DB_parameters();
-void GoToMenu();
+void load_DB();
+void clear(Data *ptrlist);
 
 #endif
 
