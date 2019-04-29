@@ -2,7 +2,6 @@
 #include "FilesFunctions.h"
 #include <iostream>
 #include <cstdlib>
-//#include "Global.h"
 #include <conio.h>
 using namespace std;
 
@@ -15,64 +14,11 @@ extern int n;
 void menu()
 {
 	system("cls");
-	char menulist[10][30] = { { "Ввести данные" },{ "Сохранить данные структуры" },{ "Отобразить данные структуры" },{ "Удалить файл со структурой" },{ "Отобразить данные из файла" },{ "Редактировать файл" },{ "Загрузить из файла" } ,{ "Пункт меню" } ,{ "Пункт меню" } ,{ "Выход" } };
-	for (int i = 0; i < 10; i++)
-		cout << menulist[i] << endl;
+	char *menulist[10] = { { "Ввести данные" },{ "Сохранить данные структуры" },{ "Отобразить данные структуры" },{ "Удалить файл со структурой" },{ "Отобразить данные из файла" },{ "Редактировать файл" },{ "Загрузить из файла" } ,{ "Сортировка" } ,{ "Удалить по имени исполнителя" } ,{ "Выход" } };
+	int prev, next;
 	int select = -1;
-	char ch;
-	do {
-		//system("cls");
-		switch (_getch())
-		{
-		case 72:
-			select--;
-			break;
-		case 80:
-			select++;
-			break;
-		case 13:
-			ch = 'e';
-			break;
-		}
-		system("cls");
-		if (select == 10)
-			select = 0;
-		if (select == -1)
-			select = 9;
-		for (int i = 0; i < 10; i++)
-		{
-			if (i == select)
-				cout << ">> ";
-			cout << menulist[i];
-			if (i == select)
-			{
-				cout << " <<";
-			}
-			cout << endl;
-		}
-	} while (ch != 'e');
-	/*do {
-		system("cls");
-		cout << " _____________________________________________________\n"
-			 << "|                         Menu                        |\n"
-			<< "|_____________________________________________________|\n"
-			<< "|1. Отобразить формат ввода данных.                   |\n"
-			<< "|2. Ввести данные.                                    |\n"
-			<< "|3. Отобразить данные структуры.                      |\n"
-			<< "|4. Удалить данные.                                   |\n"
-			<< "|5. Загрузить данные из файла.                        |\n"
-			<< "|6. Отобразить данные.                                |\n"
-			<< "|7. Создать новый файл и открыть его.                 |\n"
-			<< "|8. Сохранить данные из динамического массива.        |\n"
-			<< "|9. Изменить содержимое файла.                        |\n"
-			<< "|10. Выход.                                           |\n"
-			<< "|_____________________________________________________|\n"
-			<< endl;
-		cout << "Выберете операцию : ";
-		cin >> choice;
-		fchoice = atoi(choice);
-		system("cls");
-	} while (fchoice == 0 || fchoice > 10);*/
+	int i = 0;
+	select = Menu(menulist, 10, 30);
 	
 		switch (select)
 		{
@@ -99,22 +45,28 @@ void menu()
 				printData(fn);
 				break;
 			case 5:system("cls");
-				cout << "Введите имя файла, чтобы редактировать его содержимое : ";
-				cin >> fn;
-				EditFile(fn);
+				EditStruct();
 				menu();
 				break;
 			case 6:system("cls");
 				load_DB();
 				menu();
 				break;
-			case 7:
+			case 7:system("cls");
+				sort();
+				menu();
 				break;
 			case 8:system("cls");
+				del();
+				menu();
 				break;
 			case 9:system("cls");
 				clear(list);
 				break;
+			default:system("cls");
+				menu();
+				break;
+
 		}
 
 }

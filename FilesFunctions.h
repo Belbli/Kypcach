@@ -1,5 +1,3 @@
-
-
 #ifndef STRUCT
 #define STRUCT
 struct Data
@@ -20,12 +18,16 @@ struct Data
 
 
 void get_data();
+int Menu(char *submenu[], int rows, int cols);
 void save_DB(int count);
 void PrintFromStruct();
 void printData(char *fname);
-void EditFile(char *fname);
+void EditStruct();
 void remove_DB();
 void load_DB();
+void sort();
+void del();
+void search();
 void clear(Data *ptrlist);
 
 #endif
