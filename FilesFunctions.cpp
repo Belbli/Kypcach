@@ -2,7 +2,7 @@
 #include "FilesFunctions.h"
 #include <iostream>
 #include <cstdlib>
-#include <string.h>
+#include <string>
 #include <Windows.h>
 #include<conio.h>
 #include <fstream>
@@ -133,14 +133,14 @@ void PrintFromStruct()
 	system("cls");
 	if(ch == 0)
 	{
-		cout << " ____________________________________________________________________________________________________________\n";
-		cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата      |\n";
-		cout << " ____________________________________________________________________________________________________________\n";
+		cout << " ___________________________________________________________________________________________________________________\n";
+		cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата покупки     |\n";
+		cout << " ___________________________________________________________________________________________________________________\n";
 
 		for (int i = 0; i < n; i++)
 		{
-			printf("| %-22s| %-22s| %-27d| %-13.2f|    %d.%d.%d  |", ptrlist[i].executor, ptrlist[i].SongName, ptrlist[i].compression, ptrlist[i].price, ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
-			cout << "\n ____________________________________________________________________________________________________________\n";
+			printf("| %-22s| %-22s| %-27d| %-13.2f|        %d.%d.%d      |", ptrlist[i].executor, ptrlist[i].SongName, ptrlist[i].compression, ptrlist[i].price, ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+			cout << "\n ___________________________________________________________________________________________________________________\n";
 		}
 	}
 	if (ch == 1)
@@ -148,7 +148,7 @@ void PrintFromStruct()
 		for (int i = 0; i < n; i++)
 		{
 			cout << "Исполнитель : " << ptrlist[i].executor << "\nКомпозиция : " << ptrlist[i].SongName << "\nСтепень сжатия(MB) : " << ptrlist[i].compression << "\nЦена($) : " << ptrlist[i].price;
-			printf("\nДата : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+			printf("\nДата покупки : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
 		}
 	}
 	_getch();
@@ -293,24 +293,64 @@ int selectdir(int select)
 		return 0;
 }
 
-//int CompareDate(int j)
-//{
-//
-//}
+int CompareDate(int j)
+{
+	if (ptrlist[j].year > ptrlist[j + 1].year)
+		return 1;
+	else if (ptrlist[j].year < ptrlist[j + 1].year)
+		return -1;
+	else
+	{
+		if (ptrlist[j].month > ptrlist[j + 1].month)
+			return 1;
+		else if (ptrlist[j].month < ptrlist[j + 1].month)
+			return -1;
+		else
+		{
+			if (ptrlist[j].day > ptrlist[j + 1].day)
+				return 1;
+			else if (ptrlist[j].day < ptrlist[j + 1].day)
+				return -1;
+			else
+				return 0;
+		}
+	}
+}
 
 void sort()
 {
 	int select = -1;
 	char ch;
-	char *SortingMenu[4] = { {"По исполнителю"},{"По композиции"},{"По цене"},{"По дате"}};
+	char *SortingMenu[4] = { {"По исполнителю"},{"По композиции"},{"По цене"},{"По дате покупки"}};
 	char *SortNames[2] = { { "A-Z" },{ "Z-A" } };
-	char *SortNumbers[2] = { {"MAX - MIN"}, {"MIN - MAX"} };
+	char *SortNumbers[2] = { {"MIN - MAX"}, {"MAX - MIN"} };
 	select = Menu(SortingMenu, 4, 30);
 	int	dir = 0;
+	int(*compare)(int index);
 	switch (select)
 	{
-		case 0:
-			system("cls");
+	case 0:
+		compare = CompareNames;
+		system("cls");
+		dir = Menu(SortNames, 2, 5);
+		break;
+	case 1:
+		compare = CompareSong;
+		system("cls");
+		dir = Menu(SortNames, 2, 5);
+		break;
+	case 2:
+		compare = ComparePrice;
+		system("cls");
+		dir = Menu(SortNumbers, 2, 5);
+		break;
+	case 3:
+		compare = CompareDate;
+		system("cls");
+		dir = Menu(SortNumbers, 2, 5);
+		break;
+		
+			/*system("cls");
 			select = Menu(SortNames, 2, 5);
 				for (int i = 0; i < n; i++)
 				{
@@ -351,34 +391,24 @@ void sort()
 		case 3:
 			system("cls");
 			select = Menu(SortNumbers, 2, 5);
-			if(select == 0)
-				for (int i = n - 1; i >= 0; i--)
-				{
-					for (int j = 0; j < n - i; j++)
+			for (int i = 0; i < n - 1; i++)
+				for (int j = 0; j < n - i - 1; j++)
+					if (CompareDate(j) == selectdir(select))
 					{
-						if (i > j && ptrlist[i].year * 10000 + ptrlist[i].month * 100 + ptrlist[i].day > ptrlist[j].year * 10000 + ptrlist[j].month * 100 + ptrlist[j].day)
-						{
-							tmp = ptrlist[j];
-							ptrlist[j] = ptrlist[i];
-							ptrlist[i] = tmp;
-						}
+						tmp = ptrlist[j + 1];
+						ptrlist[j + 1] = ptrlist[j];
+						ptrlist[j] = tmp;
 					}
-				}
-			if(select == 1)
-				for (int i = n - 1; i >= 0; i--)
-				{
-					for (int j = 0; j < n - i; j++)
-					{
-						if (i > j && ptrlist[i].year * 10000 + ptrlist[i].month * 100 + ptrlist[i].day < ptrlist[j].year * 10000 + ptrlist[j].month * 100 + ptrlist[j].day)
-						{
-							tmp = ptrlist[j];
-							ptrlist[j] = ptrlist[i];
-							ptrlist[i] = tmp;
-						}
-					}
-				}
-			break;
+			break;*/
 	}
+		for (int i = 0; i < n - 1; i++)
+			for (int j = 0; j < n - i - 1; j++)
+				if (compare(j) == selectdir(dir))
+				{
+					tmp = ptrlist[j + 1];
+					ptrlist[j + 1] = ptrlist[j];
+					ptrlist[j] = tmp;
+				}
 }
 
 void remove_DB() {
@@ -388,26 +418,33 @@ void remove_DB() {
 	strcat(name, ".txt");
 	if (remove(name) == -1)
 		cout << "Не удалось удалить файл";
-	else cout << "Файл " << name << " успешно удалён";
+	else 
+		cout << "Файл " << name << " успешно удалён";
 	_getch();
 }
 
 
 void EditStruct()
 {
+	cout << "Выберете имя исполнителя, чтобы редакировать информацию о нем\n";
 	char ch, buff[50];
 	int i = 0, select = -1;
 	int size = 0;
 	int flag = 1;
 	char compression[4], price[5], day[3], month[3], year[5];
+	char **EditByName = new char*[n];
+	for (int i = 0; i < n; i++)
+		EditByName[i] = ptrlist[i].executor;
+	i = Menu(EditByName, n, 21);
+	char *EditInfo[7] = { { ptrlist[i].executor },{ ptrlist[i].SongName },{ compression },{ price },{ day },{ month },{ year } };
 	_itoa(ptrlist[i].compression, compression, 10);
 	_itoa(ptrlist[i].price, price, 10);
 	_itoa(ptrlist[i].day, day, 10);
 	_itoa(ptrlist[i].month, month, 10);
 	_itoa(ptrlist[i].year, year, 10);
-	char *EditInfo[7] = { { ptrlist[i].executor }, { ptrlist[i].SongName}, {compression}, {price}, {day}, {month}, {year} };
 	select = Menu(EditInfo, 7, 21);
-	
+	system("cls");
+
 			size = strlen(EditInfo[select]);
 			cout << EditInfo[select];
 			do {
@@ -433,16 +470,92 @@ void EditStruct()
 				}
 			} while (flag != 0);
 			ptrlist[i].compression = atoi(compression);
-			ptrlist[i].price = (float)atoi(price);
+			ptrlist[i].price = atof(price);
 			ptrlist[i].day = atoi(day);
 			ptrlist[i].month = atoi(month);
 			ptrlist[i].year = atoi(year);
-		
+
+			for (int i = 0; i < n; i++)
+				delete[] EditByName[i];
+			delete[] EditByName;
+}
+
+void SearchOutput(int k)
+{
+	if (k == -1)
+		cout << "По вашему запросу ничего не найдено.";
+
+	else
+	{
+		cout << "Результат поиска :\n\n";
+
+		cout << "Исполнитель : " << ptrlist[k].executor << endl;
+		cout << "Композиция : " << ptrlist[k].SongName << endl;
+		cout << "Степень сжатия(МВ) : " << ptrlist[k].compression << endl;
+		cout << "Цена($) : " << ptrlist[k].price << endl;
+		cout << "Дата покупки : " << ptrlist[k].day << "." << ptrlist[k].month <<
+			"." << ptrlist[k].year << endl;
+		cout << endl;
+	}
+	_getch();
 }
 
 void search()
 {
-
+	int select;
+	char *SearchMenu[4] = { {"Поиск по исполнителю"},{ "Поиска по композиции" },{ "Поиск по цене" },{ "Поиск по дате покупки" } };
+	cout << "Выберете поле для поиска\n";
+	select = Menu(SearchMenu, 4, 21);
+	system("cls");
+	char find_field[30], *date;
+	int k = -1;
+	cout << "Поиск : ";
+	cin >> find_field;
+	switch (select)
+	{
+	case 0: 
+		for (int i = 0; i < n; i++)
+		{
+			if (strcmp(find_field, ptrlist[i].executor) == 0)
+			{
+				k = i;
+				break;
+			}	
+		}
+		break;
+	case 1:
+		for (int i = 0; i < n; i++)
+		{
+			if (strcmp(find_field, ptrlist[i].SongName) == 0)
+			{
+				k = i;
+				break;
+			}
+		}
+		break;
+	case 2:
+		for (int i = 0; i < n; i++)
+		{
+			if (atof(find_field) == ptrlist[i].price)
+			{
+				k = i;
+				break;
+			}
+		}
+		break;
+	//case 3:
+	//	for (int i = 0; i < n; i++)
+	//	{
+	//		if (find_field == )
+	//		{
+	//			k = i;
+	//			break;
+	//		}
+	//	}
+	//	break;
+		
+	}
+	SearchOutput(k);
 }
 
 void del()
