@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include "FilesFunctions.h"
 #include <iostream>
 #include <cstdlib>
@@ -9,7 +9,7 @@
 using namespace std;
 
 
-Data *ptrlist, tmp;
+//Data *ptrlist, tmp;
 char nof[10], numstr[10];
 int n = 0, num = 0;
 
@@ -22,9 +22,9 @@ float checkinput(float min, float max)
 		if (min == 0)
 		{
 			if (num < 0)
-				cout << "Этот параметр должен быть положительным : ";
+				cout << "Р­С‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј : ";
 			if (num == 0)
-				cout << "Этот параметр должен быть числом : ";
+				cout << "Р­С‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј : ";
 		}
 	} while (num == 0 || num < min || num < 0);
 	return num;
@@ -35,36 +35,37 @@ int checkinput(int min, int max)
 	do {
 		fseek(stdin, 0, SEEK_END);
 		fgets(numstr, 6, stdin);
+
 		num = atoi(numstr);
 		if (min == 1000)
 			if (num == 0 || num < min || num > max || num < 0)
 			{
 				if (num == 0)
-					printf("Обнаружен символ.\nГод должен состоять из 4-х цифр\nПовторите ввод : ");
+					printf("РћР±РЅР°СЂСѓР¶РµРЅ СЃРёРјРІРѕР».\nР“РѕРґ РґРѕР»Р¶РµРЅ СЃРѕСЃС‚РѕСЏС‚СЊ РёР· 4-С… С†РёС„СЂ\nРџРѕРІС‚РѕСЂРёС‚Рµ РІРІРѕРґ : ");
 				else if (num < min || num > max)
-					printf("Год должен состоять из 4 цифр : ");
+					printf("Р“РѕРґ РґРѕР»Р¶РµРЅ СЃРѕСЃС‚РѕСЏС‚СЊ РёР· 4 С†РёС„СЂ : ");
 				else
-					printf("Введите положительное 4-х значное число : ");
+					printf("Р’РІРµРґРёС‚Рµ РїРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРµ 4-С… Р·РЅР°С‡РЅРѕРµ С‡РёСЃР»Рѕ : ");
 			}
 		if (min == 1 && max == 12)
 			if (num == 0 || num < 0 || num > 12)
 			{
 				if (num == 0)
-					printf("Обнаружен символ.\nМесяц должен быть в промежутке от (1-12)\nПовторите ввод : ");
+					printf("РћР±РЅР°СЂСѓР¶РµРЅ СЃРёРјРІРѕР».\nРњРµСЃСЏС† РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РѕС‚ (1-12)\nРџРѕРІС‚РѕСЂРёС‚Рµ РІРІРѕРґ : ");
 				else
-					printf("Месяц должен быть в промежутке от (1-12) : ");
+					printf("РњРµСЃСЏС† РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РѕС‚ (1-12) : ");
 			}
 		if (min == 1 && max == 31)
 			if (num == 0 || num < 0 || num > 31)
 			{
 				if (num == 0)
-					printf("Обнаружен символ.\nДень должен быть в промежутке от (1-31) : ");
+					printf("РћР±РЅР°СЂСѓР¶РµРЅ СЃРёРјРІРѕР».\nР”РµРЅСЊ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РѕС‚ (1-31) : ");
 				else
-					printf("День должен быть в промежутке от (1-31) : ");
+					printf("Р”РµРЅСЊ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РѕС‚ (1-31) : ");
 			}
 		if (min == 0)
 			if (num < 0 || num == 0)
-				cout << "Этот параметр должен быть положительным : ";
+				cout << "Р­С‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј : ";
 		
 	} while (num == 0 || num < min || num > max || num < 0);
 	return num;
@@ -72,69 +73,69 @@ int checkinput(int min, int max)
 
 
 
-void get_data()
+Data get_data(Data *&ptrlist)
 {
 	char ch;
 		do {
 			ptrlist = (Data*)realloc(ptrlist, (n + 1) * sizeof(Data));
 			system("cls");
 			fseek(stdin, 0, SEEK_END);
-			cout << "Введите имя исполнителя : ";
+			cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ РёСЃРїРѕР»РЅРёС‚РµР»СЏ : ";
 			cin.getline(ptrlist[n].executor,15);
 			
-			cout << "Введите названние песни : ";
+			cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРЅРёРµ РїРµСЃРЅРё : ";
 			cin.getline(ptrlist[n].SongName,20);
 			
-			cout << "Введите степень сжатия файла : ";
+			cout << "Р’РІРµРґРёС‚Рµ СЃС‚РµРїРµРЅСЊ СЃР¶Р°С‚РёСЏ С„Р°Р№Р»Р° : ";
 			ptrlist[n].compression = checkinput(0,100);
 		
-			cout << "Введите стоимость песни : ";
+			cout << "Р’РІРµРґРёС‚Рµ СЃС‚РѕРёРјРѕСЃС‚СЊ РїРµСЃРЅРё : ";
 			ptrlist[n].price = checkinput(0.0, 20);
 			
 
-			cout << "Введите день покупки : ";
+			cout << "Р’РІРµРґРёС‚Рµ РґРµРЅСЊ РїРѕРєСѓРїРєРё : ";
 			ptrlist[n].day = checkinput(1,31);
 			
-			cout << "Введите месяц покупки : ";
+			cout << "Р’РІРµРґРёС‚Рµ РјРµСЃСЏС† РїРѕРєСѓРїРєРё : ";
 			ptrlist[n].month = checkinput(1,12);
 
-			cout << "Введите год покупки : ";
+			cout << "Р’РІРµРґРёС‚Рµ РіРѕРґ РїРѕРєСѓРїРєРё : ";
 			ptrlist[n].year = checkinput(1000, 9999);
 			
 			n++;
 			system("cls");
-			cout << "Хотите добавить еще одну структуру? \nEnter - да, любой другой символ - нет.";
+			cout << "РҐРѕС‚РёС‚Рµ РґРѕР±Р°РІРёС‚СЊ РµС‰Рµ РѕРґРЅСѓ СЃС‚СЂСѓРєС‚СѓСЂСѓ? \nEnter - РґР°, Р»СЋР±РѕР№ РґСЂСѓРіРѕР№ СЃРёРјРІРѕР» - РЅРµС‚.";
 			ch = _getch();
 			
 			
 		} while (ch == 13);
-		
+		return *ptrlist;
 }
 
-void save_DB(int count)
-{
-	cout << "Введите имя файла : ";
-	cin >> nof;
-	if (strstr(nof, ".txt") == 0)
-		strcat_s(nof, ".txt");
-	ofstream fout(nof);
-	for (int i = 0; i < n; i++)
-	{
-		fout << ptrlist[i].executor << endl << ptrlist[i].SongName << endl << ptrlist[i].compression << endl << ptrlist[i].price << endl << ptrlist[i].day<< "." << ptrlist[i].month << "." << ptrlist[i].year << endl;
-	}
-	fout.close();
-}
+//void save_DB(int n)
+//{
+//	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° : ";
+//	cin >> nof;
+//	if (strstr(nof, ".txt") == 0)
+//		strcat_s(nof, ".txt");
+//	ofstream fout(nof);
+//	for (int i = 0; i < n; i++)
+//	{
+//		fout << ptrlist[i].executor << endl << ptrlist[i].SongName << endl << ptrlist[i].compression << endl << ptrlist[i].price << endl << ptrlist[i].day<< "." << ptrlist[i].month << "." << ptrlist[i].year << endl;
+//	}
+//	fout.close();
+//}
 
-void PrintFromStruct()
+void PrintFromStruct(Data *ptrlist)
 {
 	int ch;
-	char *output[2] = { { "Вывод в форме таблицы" }, {"Обычный вывод"} };
+	char *output[2] = { { "Р’С‹РІРѕРґ РІ С„РѕСЂРјРµ С‚Р°Р±Р»РёС†С‹" }, {"РћР±С‹С‡РЅС‹Р№ РІС‹РІРѕРґ"} };
 	ch = Menu(output, 2, 10);
 	system("cls");
 	if(ch == 0)
 	{
 		cout << " ___________________________________________________________________________________________________________________\n";
-		cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата покупки     |\n";
+		cout << "|\tРСЃРїРѕР»РЅРёС‚РµР»СЊ\t|\tРљРѕРјРїРѕР·РёС†РёСЏ\t|\tРЎС‚РµРїРµРЅСЊ СЃР¶Р°С‚РёСЏ(MB)   |\t Р¦РµРЅР°($)    |      Р”Р°С‚Р° РїРѕРєСѓРїРєРё     |\n";
 		cout << " ___________________________________________________________________________________________________________________\n";
 
 		for (int i = 0; i < n; i++)
@@ -147,67 +148,67 @@ void PrintFromStruct()
 	{
 		for (int i = 0; i < n; i++)
 		{
-			cout << "Исполнитель : " << ptrlist[i].executor << "\nКомпозиция : " << ptrlist[i].SongName << "\nСтепень сжатия(MB) : " << ptrlist[i].compression << "\nЦена($) : " << ptrlist[i].price;
-			printf("\nДата покупки : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+			cout << "РСЃРїРѕР»РЅРёС‚РµР»СЊ : " << ptrlist[i].executor << "\nРљРѕРјРїРѕР·РёС†РёСЏ : " << ptrlist[i].SongName << "\nРЎС‚РµРїРµРЅСЊ СЃР¶Р°С‚РёСЏ(MB) : " << ptrlist[i].compression << "\nР¦РµРЅР°($) : " << ptrlist[i].price;
+			printf("\nР”Р°С‚Р° РїРѕРєСѓРїРєРё : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
 		}
 	}
 	_getch();
 }
 			
-void printData(char *fname)
-{
-	ifstream fin(fname);
-	if (fin.is_open())
-	{
-		cout << "Ошибка открытия файла!!!\n";
-	}
-	else
-	{
-		cout << "Файл открыт.\n";
-		char buff[50];
-		char c[2];
-		int ch;
-		do {
-			cout << "Для вывода в форме таблицы введите 1, для обычного вывода введите 2.";
-			cin >> c;
-			ch = atoi(c);
-			system("cls");
-		} while (ch == 0 || ch > 2);
-		if (ch == 1)
-		{
-			cout << " ____________________________________________________________________________________________________________\n";
-			cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата      |\n";
-			cout << " ____________________________________________________________________________________________________________\n";
-
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < 5; j++)
-				{
-					fin >> buff;
-					switch (j) {
-						case 1: printf("|%-22s|", buff);
-							break;
-						case 2: printf(" %-22s|", buff);
-							break;
-						case 3: printf(" %-27s", buff);
-
-					}
-				}
-		}
-		if (ch == 2)
-		{
-			for (int i = 0; i < 7; i++)
-			{
-				fin >> buff;
-				cout << buff << endl;
-			}
-		}
-		fin.close();
-		cout << endl;
-	}
-	
-}
-
-
+//void printData(char *fname)
+//{
+//	ifstream fin(fname);
+//	if (fin.is_open())
+//	{
+//		cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°!!!\n";
+//	}
+//	else
+//	{
+//		cout << "Р¤Р°Р№Р» РѕС‚РєСЂС‹С‚.\n";
+//		char buff[50];
+//		char c[2];
+//		int ch;
+//		do {
+//			cout << "Р”Р»СЏ РІС‹РІРѕРґР° РІ С„РѕСЂРјРµ С‚Р°Р±Р»РёС†С‹ РІРІРµРґРёС‚Рµ 1, РґР»СЏ РѕР±С‹С‡РЅРѕРіРѕ РІС‹РІРѕРґР° РІРІРµРґРёС‚Рµ 2.";
+//			cin >> c;
+//			ch = atoi(c);
+//			system("cls");
+//		} while (ch == 0 || ch > 2);
+//		if (ch == 1)
+//		{
+//			cout << " ____________________________________________________________________________________________________________\n";
+//			cout << "|\tРСЃРїРѕР»РЅРёС‚РµР»СЊ\t|\tРљРѕРјРїРѕР·РёС†РёСЏ\t|\tРЎС‚РµРїРµРЅСЊ СЃР¶Р°С‚РёСЏ(MB)   |\t Р¦РµРЅР°($)    |      Р”Р°С‚Р°      |\n";
+//			cout << " ____________________________________________________________________________________________________________\n";
+//
+//			for (int i = 0; i < n; i++)
+//				for (int j = 0; j < 5; j++)
+//				{
+//					fin >> buff;
+//					switch (j) {
+//						case 1: printf("|%-22s|", buff);
+//							break;
+//						case 2: printf(" %-22s|", buff);
+//							break;
+//						case 3: printf(" %-27s", buff);
+//
+//					}
+//				}
+//		}
+//		if (ch == 2)
+//		{
+//			for (int i = 0; i < 7; i++)
+//			{
+//				fin >> buff;
+//				cout << buff << endl;
+//			}
+//		}
+//		fin.close();
+//		cout << endl;
+//	}
+//	
+//}
+//
+//
 int Menu(char *submenu[], int rows, int cols)
 {
 	int select = -1;
@@ -253,31 +254,33 @@ int Menu(char *submenu[], int rows, int cols)
 	return select;
 }
 
-int ComparePrice(int j)
+//int(*cmp)(Data ptrlist1, Data ptrlist2);
+
+int ComparePrice(Data ptrlist1, Data ptrlist2)
 {
-	if (ptrlist[j].price > ptrlist[j + 1].price)
+	if (ptrlist1.price > ptrlist2.price)
 		return 1;
-	else if (ptrlist[j].price < ptrlist[j + 1].price)
+	else if (ptrlist1.price < ptrlist2.price)
 		return -1;
 	else
 		return 0;
 }
 
-int CompareSong(int j)
+int CompareSong(Data ptrlist1, Data ptrlist2)
 {
-	if (strcmp(ptrlist[j].SongName, ptrlist[j + 1].SongName) > 0)
+	if (strcmp(ptrlist1.SongName, ptrlist2.SongName) > 0)
 		return 1;
-	else if (strcmp(ptrlist[j].SongName, ptrlist[j + 1].SongName) < 0)
+	else if (strcmp(ptrlist1.SongName, ptrlist2.SongName) < 0)
 		return -1;
 	else
 		return 0;
 }
 
-int CompareNames(int j)
+int CompareNames(Data ptrlist1, Data ptrlist2)
 {
-	if (strcmp(ptrlist[j].executor, ptrlist[j + 1].executor) > 0)
+	if (strcmp(ptrlist1.executor, ptrlist2.executor) > 0)
 		return 1;
-	else if (strcmp(ptrlist[j].executor, ptrlist[j + 1].executor) < 0)
+	else if (strcmp(ptrlist1.executor, ptrlist2.executor) < 0)
 		return -1;
 	else
 		return 0;
@@ -293,23 +296,23 @@ int selectdir(int select)
 		return 0;
 }
 
-int CompareDate(int j)
+int CompareDate(Data ptrlist1, Data ptrlist2)
 {
-	if (ptrlist[j].year > ptrlist[j + 1].year)
+	if (ptrlist1.year > ptrlist2.year)
 		return 1;
-	else if (ptrlist[j].year < ptrlist[j + 1].year)
+	else if (ptrlist1.year < ptrlist2.year)
 		return -1;
 	else
 	{
-		if (ptrlist[j].month > ptrlist[j + 1].month)
+		if (ptrlist1.month > ptrlist2.month)
 			return 1;
-		else if (ptrlist[j].month < ptrlist[j + 1].month)
+		else if (ptrlist1.month < ptrlist2.month)
 			return -1;
 		else
 		{
-			if (ptrlist[j].day > ptrlist[j + 1].day)
+			if (ptrlist1.day > ptrlist2.day)
 				return 1;
-			else if (ptrlist[j].day < ptrlist[j + 1].day)
+			else if (ptrlist1.day < ptrlist2.day)
 				return -1;
 			else
 				return 0;
@@ -317,125 +320,75 @@ int CompareDate(int j)
 	}
 }
 
-void sort()
+int Sort_Select()
 {
-	int select = -1;
-	char ch;
-	char *SortingMenu[4] = { {"По исполнителю"},{"По композиции"},{"По цене"},{"По дате покупки"}};
-	char *SortNames[2] = { { "A-Z" },{ "Z-A" } };
-	char *SortNumbers[2] = { {"MIN - MAX"}, {"MAX - MIN"} };
+	int select = -1, dir;
+	char *SortingMenu[4] = { { "РџРѕ РёСЃРїРѕР»РЅРёС‚РµР»СЋ" },{ "РџРѕ РєРѕРјРїРѕР·РёС†РёРё" },{ "РџРѕ С†РµРЅРµ" },{ "РџРѕ РґР°С‚Рµ РїРѕРєСѓРїРєРё" } };
 	select = Menu(SortingMenu, 4, 30);
-	int	dir = 0;
-	int(*compare)(int index);
-	switch (select)
-	{
-	case 0:
-		compare = CompareNames;
-		system("cls");
-		dir = Menu(SortNames, 2, 5);
-		break;
-	case 1:
-		compare = CompareSong;
-		system("cls");
-		dir = Menu(SortNames, 2, 5);
-		break;
-	case 2:
-		compare = ComparePrice;
-		system("cls");
-		dir = Menu(SortNumbers, 2, 5);
-		break;
-	case 3:
-		compare = CompareDate;
-		system("cls");
-		dir = Menu(SortNumbers, 2, 5);
-		break;
-		
-			/*system("cls");
-			select = Menu(SortNames, 2, 5);
-				for (int i = 0; i < n; i++)
-				{
-					for (int i = 0; i < n - 1; i++)
-						for (int j = 0; j < n - i - 1; j++)
-							if (CompareNames(j) == selectdir(select))
-							{
-								tmp = ptrlist[j + 1];
-								ptrlist[j + 1] = ptrlist[j];
-								ptrlist[j] = tmp;
-							}
-				}
-			break;
-		case 1:
-			system("cls");
-			select = Menu(SortNames, 2, 5);
-					for (int i = 0; i < n - 1; i++)
-						for (int j = 0; j < n - i - 1; j++)
-							if (CompareSong(j) == selectdir(select))
-							{
-								tmp = ptrlist[j + 1];
-								ptrlist[j + 1] = ptrlist[j];
-								ptrlist[j] = tmp;
-							}
-			break;
-		case 2:
-			system("cls");
-			select = Menu(SortNumbers, 2, 5);
-			for (int i = 0; i < n - 1; i++)
-				for (int j = 0; j < n - i - 1; j++)
-					if(ComparePrice(j) == selectdir(select))
-						{
-							tmp = ptrlist[j+1];
-							ptrlist[j+1] = ptrlist[j];
-							ptrlist[j] = tmp;
-						}
-			break;
-		case 3:
-			system("cls");
-			select = Menu(SortNumbers, 2, 5);
-			for (int i = 0; i < n - 1; i++)
-				for (int j = 0; j < n - i - 1; j++)
-					if (CompareDate(j) == selectdir(select))
-					{
-						tmp = ptrlist[j + 1];
-						ptrlist[j + 1] = ptrlist[j];
-						ptrlist[j] = tmp;
-					}
-			break;*/
-	}
-		for (int i = 0; i < n - 1; i++)
-			for (int j = 0; j < n - i - 1; j++)
-				if (compare(j) == selectdir(dir))
-				{
-					tmp = ptrlist[j + 1];
-					ptrlist[j + 1] = ptrlist[j];
-					ptrlist[j] = tmp;
-				}
+	return select;
+}
+
+int Dir_Select()
+{
+	int dir;
+	char *SortNumbers[2] = { { "MIN - MAX" },{ "MAX - MIN" } };
+	dir = Menu(SortNumbers, 2, 30);
+	return dir;
+}
+
+void sort(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), int dir)
+{
+	Data tmp;
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+		for (j = 0; j < n - i - 1; j++)
+			if ((cmp(ptrlist[j], ptrlist[j + 1]) == 1 && dir == 0) || (cmp(ptrlist[j], ptrlist[j + 1]) == -1 && dir == 1))
+			{
+				tmp = ptrlist[j + 1];
+				ptrlist[j + 1] = ptrlist[j];
+				ptrlist[j] = tmp;
+			}
 }
 
 void remove_DB() {
 	char name[100];
-	cout << "Введите имя файла, который хотите удалить : ";
+	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ : ";
 	cin >> name;
 	strcat(name, ".txt");
 	if (remove(name) == -1)
-		cout << "Не удалось удалить файл";
+		cout << "РќРµ СѓРґР°Р»РѕСЃСЊ СѓРґР°Р»РёС‚СЊ С„Р°Р№Р»";
 	else 
-		cout << "Файл " << name << " успешно удалён";
+		cout << "Р¤Р°Р№Р» " << name << " СѓСЃРїРµС€РЅРѕ СѓРґР°Р»С‘РЅ";
 	_getch();
 }
 
 
-void EditStruct()
+int ChooseEditLine(Data *ptrlist)
 {
-	cout << "Выберете имя исполнителя, чтобы редакировать информацию о нем\n";
+	cout << "Р’С‹Р±РµСЂРµС‚Рµ РёРјСЏ РёСЃРїРѕР»РЅРёС‚РµР»СЏ, С‡С‚РѕР±С‹ СЂРµРґР°РєРёСЂРѕРІР°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РЅРµРј\n";
 	char ch, buff[50];
 	int i = 0, select = -1;
-	int size = 0;
-	int flag = 1;
-	char compression[4], price[5], day[3], month[3], year[5];
+	int size = 0, m = 25;
+	
 	char **EditByName = new char*[n];
+	for (i = 0; i < n; i++)
+	{
+		EditByName[i] = new char;
+		EditByName[i] = ptrlist[i].executor; 
+	}
+	select = Menu(EditByName, n, 21);
 	for (int i = 0; i < n; i++)
-		EditByName[i] = ptrlist[i].executor;
-	i = Menu(EditByName, n, 21);
+		delete[] EditByName[i];
+	delete[] EditByName;
+	return select;
+}
+
+void EditStruct(Data *ptrlist)
+{
+	int i = ChooseEditLine(ptrlist), select = -1;
+	int size, flag = 1;
+	char ch;
+	char compression[4], price[5], day[3], month[3], year[5];
 	char *EditInfo[7] = { { ptrlist[i].executor },{ ptrlist[i].SongName },{ compression },{ price },{ day },{ month },{ year } };
 	_itoa(ptrlist[i].compression, compression, 10);
 	_itoa(ptrlist[i].price, price, 10);
@@ -475,41 +428,39 @@ void EditStruct()
 			ptrlist[i].month = atoi(month);
 			ptrlist[i].year = atoi(year);
 
-			for (int i = 0; i < n; i++)
-				delete[] EditByName[i];
-			delete[] EditByName;
+			
 }
 
-void SearchOutput(int k)
+void SearchOutput(Data *ptrlist, int k)
 {
 	if (k == -1)
-		cout << "По вашему запросу ничего не найдено.";
+		cout << "РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ.";
 
 	else
 	{
-		cout << "Результат поиска :\n\n";
+		cout << "Р РµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР° :\n\n";
 
-		cout << "Исполнитель : " << ptrlist[k].executor << endl;
-		cout << "Композиция : " << ptrlist[k].SongName << endl;
-		cout << "Степень сжатия(МВ) : " << ptrlist[k].compression << endl;
-		cout << "Цена($) : " << ptrlist[k].price << endl;
-		cout << "Дата покупки : " << ptrlist[k].day << "." << ptrlist[k].month <<
+		cout << "РСЃРїРѕР»РЅРёС‚РµР»СЊ : " << ptrlist[k].executor << endl;
+		cout << "РљРѕРјРїРѕР·РёС†РёСЏ : " << ptrlist[k].SongName << endl;
+		cout << "РЎС‚РµРїРµРЅСЊ СЃР¶Р°С‚РёСЏ(РњР’) : " << ptrlist[k].compression << endl;
+		cout << "Р¦РµРЅР°($) : " << ptrlist[k].price << endl;
+		cout << "Р”Р°С‚Р° РїРѕРєСѓРїРєРё : " << ptrlist[k].day << "." << ptrlist[k].month <<
 			"." << ptrlist[k].year << endl;
 		cout << endl;
 	}
 	_getch();
 }
-
-void search()
+//
+void search(Data *ptrlist)
 {
 	int select;
-	char *SearchMenu[4] = { {"Поиск по исполнителю"},{ "Поиска по композиции" },{ "Поиск по цене" },{ "Поиск по дате покупки" } };
-	cout << "Выберете поле для поиска\n";
+	char *SearchMenu[4] = { {"РџРѕРёСЃРє РїРѕ РёСЃРїРѕР»РЅРёС‚РµР»СЋ"},{ "РџРѕРёСЃРєР° РїРѕ РєРѕРјРїРѕР·РёС†РёРё" },{ "РџРѕРёСЃРє РїРѕ С†РµРЅРµ" },{ "РџРѕРёСЃРє РїРѕ РґР°С‚Рµ РїРѕРєСѓРїРєРё" } };
+	cout << "Р’С‹Р±РµСЂРµС‚Рµ РїРѕР»Рµ РґР»СЏ РїРѕРёСЃРєР°\n";
 	select = Menu(SearchMenu, 4, 21);
 	system("cls");
 	char find_field[30], *date;
 	int k = -1;
-	cout << "Поиск : ";
+	cout << "РџРѕРёСЃРє : ";
 	cin >> find_field;
 	switch (select)
 	{
@@ -555,13 +506,13 @@ void search()
 	//	break;
 		
 	}
-	SearchOutput(k);
+	SearchOutput(ptrlist, k);
 }
-
-void del()
+//
+void del(Data *ptrlist)
 {
 	char name[30];
-	cout << " Введите имя исполенителя для удаления : ";
+	cout << " Р’РІРµРґРёС‚Рµ РёРјСЏ РёСЃРїРѕР»РµРЅРёС‚РµР»СЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ : ";
 	cin >> name;
 	for (int i = 0; i < n; i++)
 	{
@@ -578,16 +529,16 @@ void del()
 	}
 }
 
-void load_DB()
+Data load_DB(Data *&ptrlist)
 {
 	int  t = 0, tmp;
 	char buff[100],tmpstr[9];
-	cout << "Введите имя файла, чтобы отоброзить его содержимое : ";
+	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°, С‡С‚РѕР±С‹ РѕС‚РѕР±СЂРѕР·РёС‚СЊ РµРіРѕ СЃРѕРґРµСЂР¶РёРјРѕРµ : ";
 	cin >> nof;
 	strcat_s(nof, ".txt");
 	ifstream fin(nof);
 	if (!fin.is_open())
-		cout << "Файл не может быть открыт" << endl;
+		cout << "Р¤Р°Р№Р» РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚РєСЂС‹С‚" << endl;
 	else
 	{
 		while (!fin.eof())
@@ -626,9 +577,10 @@ void load_DB()
 			ptrlist[n].year = atoi(buff);
 			n++;
 		}
-		cout << "Данные успешно считаны из файла : " << nof << endl;
+		cout << "Р”Р°РЅРЅС‹Рµ СѓСЃРїРµС€РЅРѕ СЃС‡РёС‚Р°РЅС‹ РёР· С„Р°Р№Р»Р° : " << nof << endl;
 	}
 	fin.close();
+	return *ptrlist;
 }
 		
 void clear(Data *ptrlist)

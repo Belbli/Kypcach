@@ -17,17 +17,24 @@ struct Data
 #define FilesFunctions_h
 
 
-void get_data();
+Data get_data(Data *&ptrlist);
 int Menu(char *submenu[], int rows, int cols);
-void save_DB(int count);
-void PrintFromStruct();
-void printData(char *fname);
-void EditStruct();
+void save_DB(int size);
+void PrintFromStruct(Data *ptrlist);
+//void printData(char *fname);
+void EditStruct(Data *ptrlist);
 void remove_DB();
-void load_DB();
-void sort();
-void del();
-void search();
+Data load_DB(Data *&ptrlist);
+int Sort_Select();
+int Dir_Select();
+//int(*cmp)(Data ptrlist1, Data ptrlist2);
+int CompareDate(Data ptrlist1, Data ptrlist2);
+int CompareNames(Data ptrlist1, Data ptrlist2);
+int CompareSong(Data ptrlist1, Data ptrlist2);
+int ComparePrice(Data ptrlist1, Data ptrlist2);
+void sort(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), int dir);
+void del(Data *ptrlist);
+void search(Data *ptrlist);
 void clear(Data *ptrlist);
 
 #endif
