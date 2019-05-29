@@ -3,23 +3,15 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <Windows.h>
+//#include <Windows.h>
 #include <conio.h>
 #include <fstream>
 using namespace std;
 
 
-char nof[10], numstr[10];
-int /*size = 0,*/ num = 0;
-
-
-void save_DB(Data *ptrlist, int size)
+void save_DB(Data *ptrlist, char *fname, int size)
 {
-	cout << "Введите имя файла : ";
-	cin >> nof;
-	if (strstr(nof, ".txt") == 0)
-		strcat_s(nof, ".txt");
-	ofstream fout(nof);
+	ofstream fout(fname);
 	for (int i = 0; i < size; i++)
 	{
 		fout << ptrlist[i].executor << endl << ptrlist[i].SongName << endl << ptrlist[i].compression << endl << ptrlist[i].price << endl << ptrlist[i].day<< "." << ptrlist[i].month << "." << ptrlist[i].year << endl;
@@ -27,7 +19,7 @@ void save_DB(Data *ptrlist, int size)
 	fout.close();
 }
 
-void PrintFromStruct(Data *ptrlist, int output_form, int size)
+void PrintStruct(Data *ptrlist, int output_form, int size)
 {
 	system("cls");
 	if(output_form == 0)
@@ -50,11 +42,11 @@ void PrintFromStruct(Data *ptrlist, int output_form, int size)
 			printf("\nДата покупки : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
 		}
 	}
-	cout << "Для продолжения нажмите клавишу";
+	//cout << "Для продолжения нажмите клавишу";
 	_getch();
 }
 			
-void printData(char *fname)
+void ReadFile(char *fname)
 {
 	ifstream fin(fname);
 	if (!fin.is_open())
@@ -111,7 +103,6 @@ void printData(char *fname)
 			}
 		}
 		fin.close();
-		cout << endl;
 	}
 	_getch();
 }
@@ -136,7 +127,6 @@ int Menu(char *submenu[], int rows, int cols)
 				ch = 'e';
 			break;
 		}
-
 		system("cls");
 		if (select == rows)
 			select = 0;
@@ -157,14 +147,15 @@ int Menu(char *submenu[], int rows, int cols)
 	return select;
 }
 
+
+
 int ComparePrice(Data ptrlist1, Data ptrlist2)
 {
 	if (ptrlist1.price > ptrlist2.price)
 		return 1;
 	else if (ptrlist1.price < ptrlist2.price)
 		return -1;
-	else
-		return 0;
+	return 0;
 }
 
 int CompareSong(Data ptrlist1, Data ptrlist2)
@@ -240,9 +231,8 @@ int Dir_Select()
 void sort(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), int dir, int size)
 {
 	Data tmp;
-	int i, j;
-	for (i = 0; i < size - 1; i++)
-		for (j = 0; j < size - i - 1; j++)
+	for (int i = 0; i < size - 1; i++)
+		for (int j = 0; j < size - i - 1; j++)
 			if ((cmp(ptrlist[j], ptrlist[j + 1]) == 1 && dir == 0) || (cmp(ptrlist[j], ptrlist[j + 1]) == -1 && dir == 1))
 			{
 				tmp = ptrlist[j + 1];
@@ -251,16 +241,11 @@ void sort(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), int dir, int s
 			}
 }
 
-void remove_DB() {
-	char name[100];
-	cout << "Введите имя файла, который хотите удалить : ";
-	cin >> name;
-	if(strstr(name, ".txt") == 0)
-		strcat(name, ".txt");
-	if (remove(name) == -1)
+void remove_DB(char *fname) {
+	if (remove(fname) == -1)
 		cout << "Не удалось удалить файл";
 	else 
-		cout << "Файл " << name << " успешно удалён";
+		cout << "Файл " << fname << " успешно удалён";
 	_getch();
 }
 
@@ -331,6 +316,15 @@ void EditStruct(Data *ptrlist)
 			ptrlist[i].year = atoi(year);
 }
 
+int search_field()
+{
+	int select;
+	char *SearchMenu[4] = { { "Поиск по исполнителю" },{ "Поиска по композиции" },{ "Поиск по цене" },{ "Поиск по дате покупки" } };
+	cout << "Выберете поле для поиска\n";
+	select = Menu(SearchMenu, 4, 21);
+	return select;
+}
+
 void SearchOutput(Data *ptrlist, int k)
 {
 	if (k == -1)
@@ -348,73 +342,23 @@ void SearchOutput(Data *ptrlist, int k)
 			"." << ptrlist[k].year << endl;
 		cout << endl;
 	}
-	_getch();
 }
 
-int search_field()
+void search(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), Data search, int size)
 {
-	int select;
-	char *SearchMenu[4] = { { "Поиск по исполнителю" },{ "Поиска по композиции" },{ "Поиск по цене" },{ "Поиск по дате покупки" } };
-	cout << "Выберете поле для поиска\n";
-	select = Menu(SearchMenu, 4, 21);
-	return select;
-}
-
-void search(Data *ptrlist, int size)
-{
-	Data tmp;
-	int select = search_field();
-	system("cls");
-	char find_field[30];
 	int k = -1;
-	cout << "Поиск : ";
-	cin >> find_field;
-	switch (select)
+	for (int i = 0; i < size; i++)
 	{
-	case 0: 
-		for (int i = 0; i < size; i++)
+		if (cmp(search, ptrlist[i]) == 0)
 		{
-			if (strcmp(find_field, ptrlist[i].executor) == 0)
-			{
-				k = i;
-				break;
-			}	
+			k = i;
+			SearchOutput(ptrlist, i);
 		}
-		break;
-	case 1:
-		for (int i = 0; i < size; i++)
-		{
-			if (strcmp(find_field, ptrlist[i].SongName) == 0)
-			{
-				k = i;
-				break;
-			}
-		}
-		break;
-	case 2:
-		for (int i = 0; i < size; i++)
-		{
-			if (atof(find_field) == ptrlist[i].price)
-			{
-				k = i;
-				break;
-			}
-		}
-		break;
-	case 3:
-		sscanf(find_field, "%d.%d.%d", &tmp.day, &tmp.month, &tmp.year);
-		for (int i = 0; i < size; i++)
-		{
-			if (CompareDate(tmp, ptrlist[i]) == 0)
-			{
-				k = i;
-				break;
-			}
-		}
-		break;
-		
 	}
-	SearchOutput(ptrlist, k);
+	if(k == -1)
+		SearchOutput(ptrlist, k);
+	
+	_getch();
 }
 
 void profit(Data *ptrlist, int size)
@@ -422,7 +366,7 @@ void profit(Data *ptrlist, int size)
 	Data profit_begin, profit_end;
 	char profit_from[12], profit_to[12];
 	float profit = 0;
-	cout << "Введите промежуток времени, за который нужно расчитать прибыль :\nПрибыль начиная от : ";
+	cout << "\nВведите промежуток времени, за который нужно расчитать прибыль :\nПрибыль начиная от : ";
 	cin >> profit_from;
 	cout << "Прибыль до : ";
 	cin >> profit_to;
@@ -430,34 +374,44 @@ void profit(Data *ptrlist, int size)
 	sscanf(profit_to, "%d.%d.%d", &profit_end.day, &profit_end.month, &profit_end.year);
 	for (int i = 0; i < size; i++)
 	{
-		if (CompareDate(profit_begin, ptrlist[i]) == -1 && CompareDate(profit_end, ptrlist[i]) == 1)
+		if (CompareDate(profit_begin, ptrlist[i]) == -1 && CompareDate(profit_end, ptrlist[i]) == 1 || CompareDate(profit_begin, ptrlist[i]) == 0 || CompareDate(profit_end, ptrlist[i]) == 0)
 			profit += ptrlist[i].price;
 	}
-	cout << "Прибыль с : " << profit_from << ", по : " << profit_to << "Сотсавляет : " << profit << "$\n";
+	cout << "Прибыль с : " << profit_from << ", по : " << profit_to << " cотсавляет : " << profit << "$\n";
+	_getch();
 }
 
-void del(Data *ptrlist, int size)
+void del(Data *ptrlist, int &size)
 {
-	int deleted = 0;
-	char name[30];
-	cout << " Введите имя исполенителя для удаления : ";
-	cin >> name;
-	for (int i = 0; i < size; i++)
+	if (size == 0)
+		cout << "База данных пуста.\n";
+	else 
 	{
-		if (strcmp(ptrlist[i].executor, name) == 0)
+		int deleted = 0;
+		char name[30];
+		cout << " Введите имя исполенителя для удаления : ";
+		fseek(stdin, 0, SEEK_END);
+		cin.getline(name, 30);
+		for (int i = 0; i < size; i++)
 		{
-			deleted = 1;
-			printf("%d\n", size);
-			for (int j = i; j < size - 1; j++)
+			if (strcmp(ptrlist[i].executor, name) == 0)
 			{
-				ptrlist[j] = ptrlist[j + 1];
+				deleted = 1;
+				do {
+					for (int j = i; j < size - 1; j++)
+					{
+						ptrlist[j] = ptrlist[j + 1];
+					}
+					size--;
+					ptrlist = (Data *)realloc(ptrlist, size * sizeof(Data));
+				} while (strcmp(ptrlist[i].executor, name) == 0);
 			}
-			ptrlist = (Data *)realloc(ptrlist, --size * sizeof(Data));
-			break;
 		}
+		cout << size;
+		_getch();
+		if (deleted == 0)
+			cout << "Не найдено имени исполнителя для удаления\n";
 	}
-	if (deleted == 0)
-		cout << "Не найдено имени исполнителя для удаления\n";
 }
 		
 void clear(Data *ptrlist)

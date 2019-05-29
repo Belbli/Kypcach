@@ -1,9 +1,19 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "filling.h"
 #include <iostream>
 #include <fstream>
 #include <conio.h>
 using namespace std;
+
+
+int ifstr(char *str)
+{
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return -1;
+	}
+	return 1;
+}
 
 float checkinput(float min, float max)
 {
@@ -13,14 +23,9 @@ float checkinput(float min, float max)
 		fseek(stdin, 0, SEEK_END);
 		fgets(numstr, 6, stdin);
 		num = atoi(numstr);
-		if (min == 0)
-		{
-			if (num < 0)
-				cout << "Этот параметр должен быть положительным : ";
-			if (num == 0)
-				cout << "Этот параметр должен быть числом : ";
-		}
-	} while (num == 0 || num < min || num < 0);
+		if (ifstr(numstr) == -1 || num < min || num > max)
+			cout << "Некорректный ввод!\nЭтот параметр должен находиться в промежутке от " << min << " до " << max << endl;
+	} while (ifstr(numstr) == -1 || num < min || num > max);
 	return num;
 }
 
@@ -31,42 +36,12 @@ int checkinput(int min, int max)
 	do {
 		fseek(stdin, 0, SEEK_END);
 		fgets(numstr, 6, stdin);
-
 		num = atoi(numstr);
-		if (min == 1000)
-			if (num == 0 || num < min || num > max || num < 0)
-			{
-				if (num == 0)
-					printf("Обнаружен символ.\nГод должен состоять из 4-х цифр\nПовторите ввод : ");
-				else if (num < min || num > max)
-					printf("Год должен состоять из 4 цифр : ");
-				else
-					printf("Введите положительное 4-х значное число : ");
-			}
-		if (min == 1 && max == 12)
-			if (num == 0 || num < 0 || num > 12)
-			{
-				if (num == 0)
-					printf("Обнаружен символ.\nМесяц должен быть в промежутке от (1-12)\nПовторите ввод : ");
-				else
-					printf("Месяц должен быть в промежутке от (1-12) : ");
-			}
-		if (min == 1 && max == 31)
-			if (num == 0 || num < 0 || num > 31)
-			{
-				if (num == 0)
-					printf("Обнаружен символ.\nДень должен быть в промежутке от (1-31) : ");
-				else
-					printf("День должен быть в промежутке от (1-31) : ");
-			}
-		if (min == 0)
-			if (num < 0 || num == 0)
-				cout << "Этот параметр должен быть положительным : ";
-
-	} while (num == 0 || num < min || num > max || num < 0);
+		if(ifstr(numstr) == -1 || num < min || num > max)
+			cout << "Некорректный ввод!\nЭтот параметр должен находиться в промежутке от " << min << " до " << max << endl;
+	} while (ifstr(numstr) == -1 || num < min || num > max);
 	return num;
 }
-
 
 Data get_data(Data *&ptrlist, int &size)
 {
@@ -85,7 +60,7 @@ Data get_data(Data *&ptrlist, int &size)
 		ptrlist[size].compression = checkinput(0, 100);
 
 		cout << "Введите стоимость песни : ";
-		ptrlist[size].price = checkinput(0.0, 20);
+		ptrlist[size].price = checkinput((float)0.0, (float)20.0);
 
 		cout << "Введите день покупки : ";
 		ptrlist[size].day = checkinput(1, 31);
