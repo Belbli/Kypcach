@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "FilesFunctions.h"
+#include "Functions.h"
 #include "filling.h"
 #include <iostream>
 #include <cstdlib>
@@ -15,13 +15,16 @@ int(*cmp)(Data ptrlist1, Data ptrlist2);
 void menu()
 {
 	system("cls");
+	char *menu_name = "ГЛАВНОЕ МЕНЮ\n";
+	char *output_menu = "ОТОБРАЗИТЬ ДАННЫЕ\n";
 	char *output[2] = { { "Вывод в форме таблицы" },{ "Обычный вывод" } };
 	char *menulist[12] = { { "Ввести данные" },{ "Сохранить данные структуры" },{ "Отобразить данные структуры" },{ "Удалить файл со структурой" },{ "Отобразить данные из файла" },{ "Редактировать структуру" },{ "Загрузить из файла" } ,{ "Сортировка" } ,{ "Удалить по имени исполнителя" } ,{ "Поиск" } ,{ "Выручка" },{ "Выход" } };
 	int  output_form;
 	char find_field[30];
+	char name[30];
 	int select = -1, field = -1, dir = 0, k;
 	int i = 0;
-	select = Menu(menulist, 12, 30);
+	select = Menu(menulist, 12, 30, menu_name);
 		switch (select)
 		{
 			case 0:system("cls");
@@ -38,8 +41,14 @@ void menu()
 				menu();
 				break;
 			case 2:system("cls");
-				output_form = Menu(output, 2, 10);
-				PrintStruct(list, output_form, n);
+				if (n != 0)
+				{
+					output_form = Menu(output, 2, 10, output_menu);
+					PrintStruct(list, output_form, n);
+				}
+				else
+					cout << "База данных пуста.\n";
+				_getch();
 				menu();
 				break;
 			case 3:system("cls");
@@ -59,7 +68,7 @@ void menu()
 				menu();
 				break;
 			case 5:system("cls");
-				EditStruct(list);
+				EditStruct(list, n);
 				menu();
 				break;
 			case 6:system("cls");
@@ -68,6 +77,7 @@ void menu()
 				break;
 			case 7:system("cls");
 				field = Sort_Select();
+				system("cls");
 				switch (field)
 				{
 					case 0:
@@ -88,8 +98,18 @@ void menu()
 				menu();
 				break;
 			case 8:system("cls");
-				del(list, n);
-				menu();
+				if (n == 0)
+				{
+					cout << "База данных пуста.\n";
+					_getch();
+				}
+				else 
+				{
+					cout << "Введите имя исполенителя для удаления : ";
+					fseek(stdin, 0, SEEK_END);
+					del(list, name, n);
+				}
+					menu();
 				break;
 			case 9:system("cls");
 				select = search_field();
@@ -100,11 +120,15 @@ void menu()
 				switch (select)
 				{
 				case 0:
-					cin.getline(tmp.executor, 15);
+					fseek(stdin, 0, SEEK_END);
+					fgets(tmp.executor, 15, stdin);
+					tmp.executor[strlen(tmp.executor) - 1] = '\0';
 					cmp = CompareNames;
 					break;
 				case 1:
-					cin.getline(tmp.SongName, 20);
+					fseek(stdin, 0, SEEK_END);
+					fgets(tmp.SongName, 15, stdin);
+					tmp.SongName[strlen(tmp.SongName) - 1] = '\0';
 					cmp = CompareSong;
 					break;
 				case 2:
