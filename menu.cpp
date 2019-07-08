@@ -8,13 +8,15 @@ using namespace std;
 
 char fn[15];
 Data *list, tmp;
-int n = 0;
+int n = 0, tmpsize = 0;
 
 int(*cmp)(Data ptrlist1, Data ptrlist2);
 
 void menu()
 {
+	bool saved = false;
 	system("cls");
+	char *YoN[2] = { {"ДА"}, {"НЕТ"} };
 	char *menu_name = "ГЛАВНОЕ МЕНЮ\n";
 	char *output_menu = "ОТОБРАЗИТЬ ДАННЫЕ\n";
 	char *output[2] = { { "Вывод в форме таблицы" },{ "Обычный вывод" } };
@@ -38,6 +40,8 @@ void menu()
 				if (strstr(fn, ".txt") == 0)
 					strcat(fn, ".txt");
 				save_DB(list, fn, n);
+				if(n != 0)
+					saved = true;
 				menu();
 				break;
 			case 2:system("cls");
@@ -150,6 +154,19 @@ void menu()
 				menu();
 				break;
 			case 11:system("cls");
+				if (saved == false)
+				{
+					cout << "Данные не сохранены.";
+					select = Menu(YoN, 2, 10, "Сохранить данные?");
+				}
+				if (select == 0)
+				{
+					cout << "Введите имя файла, в который вы хотите сохранить данные : ";
+					cin >> fn;
+					if (strstr(fn, ".txt") == 0)
+						strcat(fn, ".txt");
+					save_DB(list, fn, n);
+				}
 				clear(list);
 				break;
 			default:system("cls");

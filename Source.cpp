@@ -10,7 +10,6 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	
 	menu();
 	system("pause");
 	return 0;

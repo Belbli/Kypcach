@@ -76,7 +76,6 @@ Data get_data(Data *&ptrlist, int &size)
 		ptrlist = (Data*)realloc(ptrlist, (size + 1) * sizeof(Data));
 		system("cls");
 		cout << "ВВОД ДАННЫХ\n\n";
-		//fseek(stdin, 0, SEEK_END);
 		do {
 		cout << "Введите имя исполнителя : ";
 			fseek(stdin, 0, SEEK_END);
@@ -131,10 +130,12 @@ Data load_DB(Data *&ptrlist, int &size)
 	}
 	else
 	{
+		int k = size;
 		while (!fin.eof())
 		{
+
 			buff[0] = '\0';
-			if (size > 0)
+			if (size > k)
 				fin.getline(buff, 16);
 			fin.getline(buff, 16);
 			if (buff[0] != '\0')

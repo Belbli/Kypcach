@@ -2,48 +2,58 @@
 #include "Functions.h"
 #include <iostream>
 #include <cstdlib>
-#include <string>
-//#include <Windows.h>
 #include <conio.h>
+#include <iomanip>
 #include <fstream>
 using namespace std;
 
 
 void save_DB(Data *ptrlist, char *fname, int size)
 {
-	ofstream fout(fname);
-	for (int i = 0; i < size; i++)
+	if (size != 0)
 	{
-		fout << ptrlist[i].executor << endl << ptrlist[i].SongName << endl << ptrlist[i].compression << endl << ptrlist[i].price << endl << ptrlist[i].day<< "." << ptrlist[i].month << "." << ptrlist[i].year << endl;
+		ofstream fout(fname);
+		if (!fout.is_open())
+		{
+			cout << "Файл не может быть открыт" << endl;
+			_getch();
+		}
+		else
+		{
+			for (int i = 0; i < size; i++)
+			{
+				fout << ptrlist[i].executor << endl << ptrlist[i].SongName << endl << ptrlist[i].compression << endl << ptrlist[i].price << endl << ptrlist[i].day << "." << ptrlist[i].month << "." << ptrlist[i].year << endl;
+			}
+		}
+		fout.close();
 	}
-	fout.close();
+	else
+		cout << "База данных пуста.\n";
+	_getch();
 }
 
 void PrintStruct(Data *ptrlist, int output_form, int size)
 {
 	system("cls");
-	if(output_form == 0)
-	{
-		cout << " ___________________________________________________________________________________________________________________\n";
-		cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата покупки     |\n";
-		cout << " ___________________________________________________________________________________________________________________\n";
-
-		for (int i = 0; i < size; i++)
+		if (output_form == 0)
 		{
-			printf("| %-22s| %-22s| %-27d| %-13.2f|        %d.%d.%d      |", ptrlist[i].executor, ptrlist[i].SongName, ptrlist[i].compression, ptrlist[i].price, ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
-			cout << "\n ___________________________________________________________________________________________________________________\n";
+			cout << " ___________________________________________________________________________________________________________________\n";
+			cout << "|\tИсполнитель\t|\tКомпозиция\t|\tСтепень сжатия(MB)   |\t Цена($)    |      Дата покупки     |\n";
+			cout << " ___________________________________________________________________________________________________________________\n";
+			for (int i = 0; i < size; i++)
+			{
+				printf("  %-22s| %-22s| %-27d| %-13.2f|        %d.%d.%d      ", ptrlist[i].executor, ptrlist[i].SongName, ptrlist[i].compression, ptrlist[i].price, ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+				cout << "\n ___________________________________________________________________________________________________________________\n";
+			}
 		}
-	}
-	if (output_form == 1)
-	{
-		for (int i = 0; i < size; i++)
+		if (output_form == 1)
 		{
-			cout << "Исполнитель : " << ptrlist[i].executor << "\nКомпозиция : " << ptrlist[i].SongName << "\nСтепень сжатия(MB) : " << ptrlist[i].compression << "\nЦена($) : " << ptrlist[i].price;
-			printf("\nДата покупки : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+			for (int i = 0; i < size; i++)
+			{
+				cout << "Исполнитель : " << ptrlist[i].executor << "\nКомпозиция : " << ptrlist[i].SongName << "\nСтепень сжатия(MB) : " << ptrlist[i].compression << "\nЦена($) : " << ptrlist[i].price;
+				printf("\nДата покупки : %d.%d.%d\n\n", ptrlist[i].day, ptrlist[i].month, ptrlist[i].year);
+			}
 		}
-	}
-	//cout << "Для продолжения нажмите клавишу";
-	_getch();
 }
 			
 void ReadFile(char *fname)
@@ -107,12 +117,13 @@ void ReadFile(char *fname)
 	_getch();
 }
 
-int Menu(char *submenu[], int rows, int cols)
+int Menu(char *submenu[], int rows, int cols, char *menu_name)
 {
 	int select = -1;
 	char ch = '1';
+	cout << menu_name << endl;
 	for (int i = 0; i < rows; i++)
-		cout << submenu[i] << endl;
+		cout <<submenu[i] << endl;
 	do {
 		switch (_getch())
 		{
@@ -132,6 +143,7 @@ int Menu(char *submenu[], int rows, int cols)
 			select = 0;
 		if (select == -1 || select == -2)
 			select = rows - 1;
+		cout << menu_name << endl;
 		for (int i = 0; i < rows; i++)
 		{
 			if (i == select)
@@ -178,16 +190,6 @@ int CompareNames(Data ptrlist1, Data ptrlist2)
 		return 0;
 }
 
-int selectdir(int select)
-{
-	if (select == 0)
-		return 1;
-	if (select == 1)
-		return -1;
-	else
-		return 0;
-}
-
 int CompareDate(Data ptrlist1, Data ptrlist2)
 {
 	if (ptrlist1.year > ptrlist2.year)
@@ -214,17 +216,19 @@ int CompareDate(Data ptrlist1, Data ptrlist2)
 
 int Sort_Select()
 {
+	char *select_menu = "СОРТИРОВКА\n";
 	int select = -1, dir;
 	char *SortingMenu[4] = { { "По исполнителю" },{ "По композиции" },{ "По цене" },{ "По дате покупки" } };
-	select = Menu(SortingMenu, 4, 30);
+	select = Menu(SortingMenu, 4, 30, select_menu);
 	return select;
 }
 
 int Dir_Select()
 {
 	int dir;
+	char *dir_menu = "СОРТИРОВКА\n";
 	char *SortNumbers[2] = { { "MIN - MAX" },{ "MAX - MIN" } };
-	dir = Menu(SortNumbers, 2, 30);
+	dir = Menu(SortNumbers, 2, 30, dir_menu);
 	return dir;
 }
 
@@ -250,78 +254,84 @@ void remove_DB(char *fname) {
 }
 
 
-int ChooseEditLine(Data *ptrlist)
+int ChooseEditLine(Data *ptrlist, int size)
 {
 	cout << "Выберете имя исполнителя, чтобы редакировать информацию о нем\n";
-	char ch, buff[50];
-	int i = 0, select = -1;
-	int size = 0, m = 25;
-	
-	char **EditByName = new char*[size];
-	for (i = 0; i < size; i++)
+	int  select = -1;
+	char *editing_menu = "МЕНЮ РЕДАКТИРОВАНИЯ\n";
+	char **EditByName = new char *[size];
+	for (int i = 0; i < size; i++)
 	{
-		EditByName[i] = new char;
-		EditByName[i] = ptrlist[i].executor; 
+		EditByName[i] = new char [21];
+		strcpy(EditByName[i], ptrlist[i].executor); 
 	}
-	select = Menu(EditByName, size, 21);
+	select = Menu(EditByName, size, 21, editing_menu);
 	for (int i = 0; i < size; i++)
 		delete[] EditByName[i];
 	delete[] EditByName;
 	return select;
 }
 
-void EditStruct(Data *ptrlist)
+void EditStruct(Data *ptrlist, int size)
 {
-	int i = ChooseEditLine(ptrlist), select = -1;
-	int size, flag = 1;
-	char ch;
-	char compression[4], price[5], day[3], month[3], year[5];
-	char *EditInfo[7] = { { ptrlist[i].executor },{ ptrlist[i].SongName },{ compression },{ price },{ day },{ month },{ year } };
-	_itoa(ptrlist[i].compression, compression, 10);
-	_itoa(ptrlist[i].price, price, 10);
-	_itoa(ptrlist[i].day, day, 10);
-	_itoa(ptrlist[i].month, month, 10);
-	_itoa(ptrlist[i].year, year, 10);
-	select = Menu(EditInfo, 7, 21);
-	system("cls");
+	if (size != 0)
+	{
+		char *editing_data_menu = "МЕНЮ РЕДАКТИРОВАНИЯ\n";
+		int i = ChooseEditLine(ptrlist, size), select = -1;
+		int  flag = 1, length;
+		char ch;
+		char compression[4], price[5], day[3], month[3], year[5];
+		char *EditInfo[7] = { { ptrlist[i].executor },{ ptrlist[i].SongName },{ compression },{ price },{ day },{ month },{ year } };
+		_itoa(ptrlist[i].compression, compression, 10);
+		sprintf(price, "%.2f", ptrlist[i].price);
+		_itoa(ptrlist[i].day, day, 10);
+		_itoa(ptrlist[i].month, month, 10);
+		_itoa(ptrlist[i].year, year, 10);
+		select = Menu(EditInfo, 7, 21, editing_data_menu);
+		system("cls");
 
-			size = strlen(EditInfo[select]);
-			cout << EditInfo[select];
-			do {
-				ch = _getch();
-				switch (ch)
-				{
-				case 8:
-					size--;
-					EditInfo[select][size] = '\0';
-					system("cls");
-					cout << EditInfo[select];
-					break;
-				case 13:
-					flag = 0;
-					break;
-				default:
-					EditInfo[select][size] = ch;
-					EditInfo[select][size + 1] = '\0';
-					size++;
-					system("cls");
-					cout << EditInfo[select];
-					break;
-				}
-			} while (flag != 0);
-			ptrlist[i].compression = atoi(compression);
-			ptrlist[i].price = atof(price);
-			ptrlist[i].day = atoi(day);
-			ptrlist[i].month = atoi(month);
-			ptrlist[i].year = atoi(year);
+		length = strlen(EditInfo[select]);
+		cout << EditInfo[select];
+		do {
+			ch = _getch();
+			switch (ch)
+			{
+			case 8:
+				length--;
+				EditInfo[select][length] = '\0';
+				system("cls");
+				cout << EditInfo[select];
+				break;
+			case 13:
+				flag = 0;
+				break;
+			default:
+				EditInfo[select][length] = ch;
+				EditInfo[select][length + 1] = '\0';
+				length++;
+				system("cls");
+				cout << EditInfo[select];
+				break;
+			}
+		} while (flag != 0);
+		ptrlist[i].compression = atoi(compression);
+		ptrlist[i].price = atof(price);
+		ptrlist[i].day = atoi(day);
+		ptrlist[i].month = atoi(month);
+		ptrlist[i].year = atoi(year);
+	}
+	else
+		cout << "База данных пуста.\n";
+	_getch();
 }
 
 int search_field()
 {
 	int select;
+	char *search_menu = "ПОИСК\n";
 	char *SearchMenu[4] = { { "Поиск по исполнителю" },{ "Поиска по композиции" },{ "Поиск по цене" },{ "Поиск по дате покупки" } };
 	cout << "Выберете поле для поиска\n";
-	select = Menu(SearchMenu, 4, 21);
+	select = Menu(SearchMenu, 4, 21, search_menu);
 	return select;
 }
 
@@ -332,8 +342,6 @@ void SearchOutput(Data *ptrlist, int k)
 
 	else
 	{
-		cout << "Результат поиска :\n\n";
-
 		cout << "Исполнитель : " << ptrlist[k].executor << endl;
 		cout << "Композиция : " << ptrlist[k].SongName << endl;
 		cout << "Степень сжатия(МВ) : " << ptrlist[k].compression << endl;
@@ -346,6 +354,7 @@ void SearchOutput(Data *ptrlist, int k)
 
 void search(Data *ptrlist, int(*cmp)(Data ptrlist1, Data ptrlist2), Data search, int size)
 {
+	cout << "Результат поиска :\n\n";
 	int k = -1;
 	for (int i = 0; i < size; i++)
 	{
@@ -378,19 +387,13 @@ void profit(Data *ptrlist, int size)
 			profit += ptrlist[i].price;
 	}
 	cout << "Прибыль с : " << profit_from << ", по : " << profit_to << " cотсавляет : " << profit << "$\n";
+	fseek(stdin, 0, SEEK_END);
 	_getch();
 }
 
-void del(Data *ptrlist, int &size)
+void del(Data *ptrlist, char *name, int &size)
 {
-	if (size == 0)
-		cout << "База данных пуста.\n";
-	else 
-	{
 		int deleted = 0;
-		char name[30];
-		cout << " Введите имя исполенителя для удаления : ";
-		fseek(stdin, 0, SEEK_END);
 		cin.getline(name, 30);
 		for (int i = 0; i < size; i++)
 		{
@@ -407,11 +410,10 @@ void del(Data *ptrlist, int &size)
 				} while (strcmp(ptrlist[i].executor, name) == 0);
 			}
 		}
-		cout << size;
-		_getch();
+
 		if (deleted == 0)
 			cout << "Не найдено имени исполнителя для удаления\n";
-	}
+	_getch();
 }
 		
 void clear(Data *ptrlist)
